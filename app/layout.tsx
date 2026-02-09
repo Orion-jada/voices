@@ -26,7 +26,7 @@ export default function RootLayout({
             <nav className="hidden md:flex space-x-6 font-semibold">
               <Link href="/" className="hover:text-blue-200 transition">Home</Link>
               <Link href="/issues" className="hover:text-blue-200 transition">Issues</Link>
-              <Link href="/crosswords" className="hover:text-blue-200 transition">Crosswords</Link>
+              <Link href="/games" className="hover:text-blue-200 transition">Games</Link>
               <Link href="/contacts" className="hover:text-blue-200 transition">Contact</Link>
             </nav>
             {/* Simple mobile menu link for now */}

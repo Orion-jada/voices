@@ -51,9 +51,9 @@ export default async function Home() {
       <section className="bg-blue-50 py-16 text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4 text-blue-900">Challenge Yourself</h2>
-          <p className="mb-8 text-black max-w-2xl mx-auto">Test your wits with our latest crossword puzzles, designed by Masterman students.</p>
-          <Link href="/crosswords" className="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 transition shadow-lg inline-block">
-            Play Crosswords
+          <p className="mb-8 text-black max-w-2xl mx-auto">Test your wits with puzzles, trivia, and word games designed by Masterman students.</p>
+          <Link href="/games" className="bg-blue-600 text-white px-8 py-3 rounded font-bold hover:bg-blue-700 transition shadow-lg inline-block">
+            Play Games
           </Link>
         </div>
       </section>

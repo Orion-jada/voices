@@ -26,3 +26,34 @@ export interface Crossword {
   issue_id: string | null;
   created_at: string;
 }
+
+export interface TriviaQuiz {
+  id: string;
+  title: string;
+  category: string | null;
+  created_at: string;
+}
+
+export interface TriviaQuestion {
+  id: string;
+  quiz_id: string;
+  question: string;
+  options: string; // JSON array
+  correct_answer: number;
+}
+
+export interface VocabGame {
+  id: string;
+  title: string;
+  pairs: string; // JSON: [{word, definition}]
+  created_at: string;
+}
+
+export interface WordLadder {
+  id: string;
+  title: string;
+  start_word: string;
+  end_word: string;
+  solution: string; // JSON array of steps
+  created_at: string;
+}
