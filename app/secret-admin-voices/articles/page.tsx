@@ -1,6 +1,8 @@
 import { getAllArticles, getIssues } from '@/lib/actions';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ArticlesListPage() {
   const articles = await getAllArticles();
   const issues = await getIssues();

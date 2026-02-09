@@ -1,6 +1,8 @@
 import { getIssues, getCrossword } from '@/lib/actions';
 import CrosswordEditor from '@/components/CrosswordEditor';
 
+export const dynamic = 'force-dynamic';
+
 export default async function EditCrosswordPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const [issues, crossword] = await Promise.all([

@@ -1,6 +1,8 @@
 import { getIssues } from '@/lib/actions';
 import ArticleForm from '../ArticleForm';
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewArticlePage() {
   const issues = await getIssues();
   return (

@@ -1,6 +1,8 @@
 import { getIssues } from '@/lib/actions';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function PublicIssuesPage() {
   const issues = await getIssues();
 

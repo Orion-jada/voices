@@ -1,6 +1,8 @@
 import { getIssues } from '@/lib/actions';
 import CrosswordEditor from '@/components/CrosswordEditor';
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewCrosswordPage() {
   const issues = await getIssues();
   return (

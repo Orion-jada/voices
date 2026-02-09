@@ -1,6 +1,8 @@
 import { getAllCrosswords } from '@/lib/actions';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CrosswordsListPage() {
   const crosswords = await getAllCrosswords();
 

@@ -1,6 +1,8 @@
 import { getCrossword } from '@/lib/actions';
 import CrosswordPlayer from '@/components/CrosswordPlayer';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CrosswordPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const crossword = await getCrossword(id);
