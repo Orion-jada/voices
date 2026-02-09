@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Props {
     startWord: string;
@@ -8,14 +8,70 @@ interface Props {
     title: string;
 }
 
+// Word list will be loaded from the text file
+let wordListSet: Set<string> | null = null;
+let wordListLoading = false;
+let wordListPromise: Promise<Set<string>> | null = null;
+
+async function loadWordList(): Promise<Set<string>> {
+    if (wordListSet) return wordListSet;
+
+    if (wordListPromise) return wordListPromise;
+
+    wordListLoading = true;
+    wordListPromise = fetch('/api/wordlist')
+        .then(res => res.json())
+        .then((words: string[]) => {
+            wordListSet = new Set(words.map(w => w.toUpperCase()));
+            wordListLoading = false;
+            return wordListSet;
+        })
+        .catch(() => {
+            wordListSet = new Set();
+            wordListLoading = false;
+            return wordListSet;
+        });
+
+    return wordListPromise;
+}
+
+async function checkWordWithAPI(word: string): Promise<boolean> {
+    // First check against the loaded word list
+    const wordList = await loadWordList();
+    if (wordList.has(word)) {
+        return true;
+    }
+
+    // Fall back to free dictionary API for words not in the list
+    try {
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
+        return response.ok;
+    } catch {
+        // If API fails, accept the word to not block gameplay
+        return true;
+    }
+}
+
 export default function WordLadderGame({ startWord, endWord, solution, title }: Props) {
-    const [currentSteps, setCurrentSteps] = useState<string[]>([startWord]);
+    const [currentSteps, setCurrentSteps] = useState<string[]>([startWord.toUpperCase()]);
     const [inputValue, setInputValue] = useState('');
     const [error, setError] = useState('');
     const [gameComplete, setGameComplete] = useState(false);
     const [showHint, setShowHint] = useState(false);
+    const [isChecking, setIsChecking] = useState(false);
+    const [wordListReady, setWordListReady] = useState(false);
+
+    // Pre-load word list on mount
+    useEffect(() => {
+        loadWordList().then(() => setWordListReady(true));
+    }, []);
 
     const validateWord = (prevWord: string, newWord: string): string | null => {
+        // Check letters only
+        if (!/^[A-Z]+$/.test(newWord)) {
+            return 'Only letters allowed';
+        }
+
         if (newWord.length !== prevWord.length) {
             return `Word must be ${prevWord.length} letters`;
         }
@@ -32,7 +88,14 @@ export default function WordLadderGame({ startWord, endWord, solution, title }: 
         return null;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // Only allow letters
+        const value = e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase();
+        setInputValue(value);
+        setError('');
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const word = inputValue.toUpperCase().trim();
 
@@ -43,6 +106,16 @@ export default function WordLadderGame({ startWord, endWord, solution, title }: 
 
         if (validationError) {
             setError(validationError);
+            return;
+        }
+
+        // Check if it's a real word
+        setIsChecking(true);
+        const isValidWord = await checkWordWithAPI(word);
+        setIsChecking(false);
+
+        if (!isValidWord) {
+            setError(`"${word}" is not a valid English word`);
             return;
         }
 
@@ -65,7 +138,7 @@ export default function WordLadderGame({ startWord, endWord, solution, title }: 
     };
 
     const restartGame = () => {
-        setCurrentSteps([startWord]);
+        setCurrentSteps([startWord.toUpperCase()]);
         setInputValue('');
         setError('');
         setGameComplete(false);
@@ -118,7 +191,7 @@ export default function WordLadderGame({ startWord, endWord, solution, title }: 
                 <p className="text-lg text-black mb-4">
                     Transform <span className="font-bold text-orange-600">{startWord.toUpperCase()}</span> into <span className="font-bold text-orange-600">{endWord.toUpperCase()}</span>
                 </p>
-                <p className="text-sm text-gray-600">Change one letter at a time. Each step must be a valid word.</p>
+                <p className="text-sm text-gray-600">Change one letter at a time. Each step must be a valid English word.</p>
             </div>
 
             {/* Current ladder */}
@@ -142,16 +215,19 @@ export default function WordLadderGame({ startWord, endWord, solution, title }: 
                     <input
                         type="text"
                         value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value.toUpperCase())}
+                        onChange={handleInputChange}
                         placeholder={`Enter ${startWord.length}-letter word`}
                         maxLength={startWord.length}
+                        pattern="[A-Za-z]*"
                         className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg font-mono text-center text-lg uppercase focus:border-orange-400 focus:outline-none"
+                        disabled={isChecking}
                     />
                     <button
                         type="submit"
-                        className="bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-700 transition"
+                        disabled={isChecking}
+                        className="bg-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-700 transition disabled:opacity-50"
                     >
-                        Add
+                        {isChecking ? '...' : 'Add'}
                     </button>
                 </form>
 
@@ -185,7 +261,7 @@ export default function WordLadderGame({ startWord, endWord, solution, title }: 
                     Hint: Try changing the letter at position {
                         (() => {
                             const current = currentSteps[currentSteps.length - 1];
-                            const next = solution[currentSteps.length];
+                            const next = solution[currentSteps.length].toUpperCase();
                             for (let i = 0; i < current.length; i++) {
                                 if (current[i] !== next[i]) return i + 1;
                             }
