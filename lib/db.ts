@@ -1,17 +1,22 @@
-import Database from 'better-sqlite3';
+import { createClient } from '@libsql/client';
 
-const db = new Database('voices.db');
+const client = createClient({
+  url: process.env.TURSO_DATABASE_URL || 'file:voices.db',
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
-export function initDB() {
-  db.exec(`
+export async function initDB() {
+  await client.execute(`
     CREATE TABLE IF NOT EXISTS issues (
       id TEXT PRIMARY KEY,
       month TEXT NOT NULL,
       year INTEGER NOT NULL,
       is_published INTEGER DEFAULT 0,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    );
+    )
+  `);
 
+  await client.execute(`
     CREATE TABLE IF NOT EXISTS articles (
       id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
@@ -22,19 +27,21 @@ export function initDB() {
       issue_id TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY(issue_id) REFERENCES issues(id)
-    );
+    )
+  `);
 
+  await client.execute(`
     CREATE TABLE IF NOT EXISTS crosswords (
       id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
-      grid TEXT NOT NULL, -- JSON string
-      clues TEXT NOT NULL, -- JSON string
-      solution TEXT NOT NULL, -- JSON string
+      grid TEXT NOT NULL,
+      clues TEXT NOT NULL,
+      solution TEXT NOT NULL,
       issue_id TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY(issue_id) REFERENCES issues(id)
-    );
+    )
   `);
 }
 
-export default db;
+export default client;
