@@ -17,20 +17,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} flex flex-col min-h-screen bg-gray-50 text-gray-900`}>
+      <body className={`${inter.className} flex flex-col min-h-screen bg-white text-black`}>
         <header className="bg-blue-900 text-white shadow-md sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <Link href="/" className="text-2xl font-serif font-bold tracking-wider">
               MASTERMAN VOICES
             </Link>
             <nav className="hidden md:flex space-x-6 font-semibold">
-              <Link href="/" className="hover:text-yellow-400 transition">Home</Link>
-              <Link href="/issues" className="hover:text-yellow-400 transition">Issues</Link>
-              <Link href="/crosswords" className="hover:text-yellow-400 transition">Crosswords</Link>
-              <Link href="/contacts" className="hover:text-yellow-400 transition">Contact</Link>
+              <Link href="/" className="hover:text-blue-200 transition">Home</Link>
+              <Link href="/issues" className="hover:text-blue-200 transition">Issues</Link>
+              <Link href="/crosswords" className="hover:text-blue-200 transition">Crosswords</Link>
+              <Link href="/contacts" className="hover:text-blue-200 transition">Contact</Link>
             </nav>
             {/* Simple mobile menu link for now */}
-            <Link href="/issues" className="md:hidden text-yellow-400 font-bold">Menu</Link>
+            <Link href="/issues" className="md:hidden text-white font-bold">Menu</Link>
           </div>
         </header>
 
@@ -38,10 +38,10 @@ export default function RootLayout({
           {children}
         </main>
 
-        <footer className="bg-gray-800 text-gray-300 py-8 mt-12">
+        <footer className="bg-blue-900 text-white py-8 mt-12">
           <div className="container mx-auto px-4 text-center">
             <p>&copy; {new Date().getFullYear()} Masterman Voices. Home of the Blue Dragons.</p>
-            <p className="text-sm mt-2">Julia R. Masterman School, Philadelphia</p>
+            <p className="text-sm mt-2 text-blue-200">Julia R. Masterman School, Philadelphia</p>
           </div>
         </footer>
       </body>

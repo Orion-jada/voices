@@ -9,6 +9,8 @@ export interface Issue {
 export interface Article {
   id: string;
   title: string;
+  subline: string | null;
+  banner_image: string | null;
   content: string;
   author: string | null;
   issue_id: string | null;

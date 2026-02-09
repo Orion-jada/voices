@@ -20,22 +20,22 @@ export default async function ArticlesListPage() {
         </Link>
       </div>
 
-      <div className="bg-white rounded shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="bg-white rounded shadow overflow-hidden border border-blue-100">
+        <table className="min-w-full divide-y divide-blue-100">
+          <thead className="bg-blue-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Issue</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Title</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Author</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Issue</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-blue-100">
             {articles.map((article) => (
               <tr key={article.id}>
-                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{article.title}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500">{article.author}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500">{getIssueName(article.issue_id)}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-medium text-black">{article.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-blue-600">{article.author}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-blue-600">{getIssueName(article.issue_id)}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-900">
                   <Link href={`/secret-admin-voices/articles/${article.id}`}>Edit</Link>
                 </td>

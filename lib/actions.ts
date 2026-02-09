@@ -40,8 +40,8 @@ export async function getArticle(id: string): Promise<Article | undefined> {
 
 export async function createArticle(data: Omit<Article, 'id' | 'created_at'>) {
   const id = uuidv4();
-  const stmt = db.prepare('INSERT INTO articles (id, title, content, author, issue_id) VALUES (?, ?, ?, ?, ?)');
-  stmt.run(id, data.title, data.content, data.author || null, data.issue_id || null);
+  const stmt = db.prepare('INSERT INTO articles (id, title, subline, banner_image, content, author, issue_id) VALUES (?, ?, ?, ?, ?, ?, ?)');
+  stmt.run(id, data.title, data.subline || null, data.banner_image || null, data.content, data.author || null, data.issue_id || null);
   revalidatePath(`/issues/${data.issue_id}`);
   return id;
 }
@@ -49,7 +49,7 @@ export async function createArticle(data: Omit<Article, 'id' | 'created_at'>) {
 export async function updateCrossword(id: string, data: Partial<Omit<Crossword, 'id' | 'created_at'>>) {
   const keys = Object.keys(data);
   if (keys.length === 0) return;
-  
+
   const fields = keys.map((key) => `${key} = ?`).join(', ');
   const values = Object.values(data);
   const stmt = db.prepare(`UPDATE crosswords SET ${fields} WHERE id = ?`);
@@ -59,7 +59,7 @@ export async function updateCrossword(id: string, data: Partial<Omit<Crossword, 
 export async function updateArticle(id: string, data: Partial<Omit<Article, 'id' | 'created_at'>>) {
   const keys = Object.keys(data);
   if (keys.length === 0) return;
-  
+
   const fields = keys.map((key) => `${key} = ?`).join(', ');
   const values = Object.values(data);
   const stmt = db.prepare(`UPDATE articles SET ${fields} WHERE id = ?`);
@@ -77,8 +77,8 @@ export async function getCrosswords(issueId: string): Promise<Crossword[]> {
 }
 
 export async function getCrossword(id: string): Promise<Crossword | undefined> {
-    const stmt = db.prepare('SELECT * FROM crosswords WHERE id = ?');
-    return stmt.get(id) as Crossword | undefined;
+  const stmt = db.prepare('SELECT * FROM crosswords WHERE id = ?');
+  return stmt.get(id) as Crossword | undefined;
 }
 
 export async function createCrossword(data: Omit<Crossword, 'id' | 'created_at'>) {

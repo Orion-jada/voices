@@ -15,6 +15,8 @@ export function initDB() {
     CREATE TABLE IF NOT EXISTS articles (
       id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
+      subline TEXT,
+      banner_image TEXT,
       content TEXT NOT NULL,
       author TEXT,
       issue_id TEXT,

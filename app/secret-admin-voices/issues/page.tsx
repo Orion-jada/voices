@@ -11,7 +11,7 @@ export default async function IssuesPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Manage Issues</h1>
-      
+
       <form action={addIssue} className="bg-white p-4 rounded shadow mb-8 flex gap-4 items-end">
         <div>
           <label className="block text-sm">Month</label>
@@ -24,21 +24,21 @@ export default async function IssuesPage() {
         <button className="bg-blue-600 text-white px-4 py-2 rounded">Create Issue</button>
       </form>
 
-      <div className="bg-white rounded shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="bg-white rounded shadow overflow-hidden border border-blue-100">
+        <table className="min-w-full divide-y divide-blue-100">
+          <thead className="bg-blue-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Published</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Month</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Year</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Published</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-blue-100">
             {issues.map((issue) => (
               <tr key={issue.id}>
-                <td className="px-6 py-4 whitespace-nowrap">{issue.month}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{issue.year}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{issue.is_published ? 'Yes' : 'No'}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-black">{issue.month}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-black">{issue.year}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-black">{issue.is_published ? 'Yes' : 'No'}</td>
               </tr>
             ))}
           </tbody>

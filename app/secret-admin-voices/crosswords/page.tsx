@@ -12,21 +12,21 @@ export default async function CrosswordsListPage() {
           New Crossword
         </Link>
       </div>
-      
-      <div className="bg-white rounded shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+
+      <div className="bg-white rounded shadow overflow-hidden border border-blue-100">
+        <table className="min-w-full divide-y divide-blue-100">
+          <thead className="bg-blue-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Title</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Created At</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-blue-800 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
-           <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-blue-100">
             {crosswords.map((cw) => (
               <tr key={cw.id}>
-                <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{cw.title}</td>
-                 <td className="px-6 py-4 whitespace-nowrap text-gray-500">{new Date(cw.created_at).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap font-medium text-black">{cw.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-blue-600">{new Date(cw.created_at).toLocaleDateString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600 hover:text-blue-900">
                   <Link href={`/secret-admin-voices/crosswords/${cw.id}`}>Edit</Link>
                 </td>
